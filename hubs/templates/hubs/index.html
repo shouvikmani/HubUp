@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--Code taken from getbootstrap.com Examples-->
+<html lang="en">
+  <head>
+  	{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'hubs/images/logo.png' %}">
+    <title>HubUp</title>
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+    <!--jQuery file -->
+    <script src="{% static 'hubs/dist/js/jquery-1.11.1.min.js' %}"></script>
+    <!--Bootstrap core JS -->
+    <script src="{% static 'hubs/dist/js/bootstrap.min.js' %}"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'hubs/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--Custom styles-->
+	  <link rel="stylesheet" type="text/css" href="{% static 'hubs/index.css' %}">
+	<title>HubUp</title>
+  </head>
+  <body>
+    <!--Navigation bar-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'hubs:index' %}">
+          <div class="col-md-2">
+            <img src="{% static 'hubs/images/logo.png' %}" alt="Brand">
+          </div>
+          <div class="col-md-4">
+            <div class="headerText">
+              HubUp
+            </div>
+          </div>
+          </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <div class="row">
+          <ul class="nav navbar-nav navbar-right">
+	            <li><a href="{% url 'hubs:createHub' %}"><div class="navFont">Create</div></a></li>
+	            <li><a href="{% url 'hubs:viewHub' %}">Discover</a></li>
+	            <li><a href="{% url 'hubs:logInPage' %}">Log In</a></li>
+	            <li><a href="{% url 'hubs:createAccount' blankErrorStatus=False %}">Sign Up</a></li>
+      	  </ul>
+         </div>
+        </div>
+      </div>
+    </nav>
+    <!--Homepage carousel with images-->
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  	  <!-- Indicators -->
+  	  <ol class="carousel-indicators">
+  	    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+  	    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+  	    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+  	  </ol>
+
+  	  <!-- Wrapper for slides -->
+  	  <div class="carousel-inner" role="listbox">
+  	    <div class="item active">
+          <!--Image source: http://realamericanews.com/2014/09/university-somehow-shocked-that-people-are-upset-its-intramural-soccer-program-gives-women-twice-the-points-for-goal-scored/-->
+          <img src="{% static 'hubs/images/carousel_image_1.png' %}" alt="">
+  	      <div class="carousel-caption">
+            <div class="col-md-8 col-md-offset-7">
+              <div class="positionButtonsCarousel"><a href = "{% url 'hubs:createAccount' blankErrorStatus=False %}"><button type="button" class="btn btn-primary btn-lg">Sign Up</button></a>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href = "{% url 'hubs:logInPage' %}"><button type="button" class="btn btn-success btn-lg">Log In</button></a></div>
+          </div>
+  	      </div>
+  	    </div>
+  	    <div class="item">
+          <!--Image source: http://blog.cengage.com/wp-content/uploads/2013/10/study.group_.compares.notes_.jpg -->
+          <!--Image source: https://secure.static.tumblr.com/54cac0794a6cb43fd4cd1fe946142290/u8ekvhx/fConapwt4/tumblr_static_party-music-hd-wallpaper-1920x1200-38501.jpg -->
+          <img src="{% static 'hubs/images/carousel_image_2.png' %}" alt="...">
+  	      <div class="carousel-caption">
+  	      </div>
+  	    </div>
+  	    <div class="item">
+          <!--Image source: http://empoweredbypierce.com/wp-content/uploads/2014/10/team-huddle.jpg-->
+          <!--Image Source: https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRw&url=http%3A%2F%2Fsimpleicon.com%2Fmap-8.html&ei=_4F_VP3UB4e-ggSCuoOQDQ&bvm=bv.80642063,d.aWw&psig=AFQjCNE8owkE3lmlFGbWv-uOuhWiDtQElA&ust=1417728816736462-->
+          <!--Image Source: https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRw&url=http%3A%2F%2Fright3.com%2Fportfolio%2Fr3-coaching-1-day-event%2F&ei=jIF_VMnYFYKmgwSS9ID4DQ&psig=AFQjCNFN2rEPzlLQ8k3W2LxIUNYAu2MckQ&ust=1417728776104965-->
+          <img src="{% static 'hubs/images/carousel_image_3.png' %}" alt="...">
+  	      <div class="carousel-caption">
+  	      </div>
+  	    </div>
+	    </div>
+  	</div>
+    <!--Containers with information about HubUp and its features-->
+    <div class="container">
+      <div class="starter-template">
+        <h1>Discover</h1><br><br>
+        <div class="row">
+          <div class="col-lg-4">
+            <img class="img-circle" src="{% static 'hubs/images/featureCircle1.png' %}" alt="Generic placeholder image" style="width: 200px; height: 200px;">
+            <p class="lead">Find Hubs in your area</p>
+          </div>
+          <div class="col-lg-4">
+            <!--Image Source: https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRw&url=http%3A%2F%2Fjsfiddle.net%2F6TPsC%2F2%2F&ei=VqN_VJveHYaYgwTquIC4Aw&bvm=bv.80642063,d.aWw&psig=AFQjCNGKMF0YG-I519p1tclW-ECW-cV1KQ&ust=1417737068166026-->
+            <img class="img-circle" src="{% static 'hubs/images/featureCircle2.png' %}" alt="Generic placeholder image" style="width: 200px; height: 200px;">
+		        <p class="lead">Meet new people</p>
+          </div>
+          <div class="col-lg-4">
+            <!--Image Source: http://www.clipartbest.com/cliparts/9cR/jMd/9cRjMdGce.png-->
+            <!--Image Source: https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRw&url=https%3A%2F%2Fwww.crystalgraphics.com%2Fpowerpictures%2Fimages.photos.asp%3Fss%3Dguitar%2520icon&ei=f8l_VNHKOci-ggT9tILYBQ&bvm=bv.80642063,d.aWw&psig=AFQjCNHuD0Zn6NcC7EUlYwnEkccbeifZuA&ust=1417747047277976-->
+            <!--Image Source: http://cdn.vectorstock.com/i/composite/71,74/open-book-vector-1237174.jpg-->
+            <!--Image Source: http://www.vectoriel.com/vectors/400/2013/04/30/684-mike.jpg-->
+            <img class="img-circle" src="{% static 'hubs/images/featureCircle3.png' %}" alt="Generic placeholder image" style="width: 200px; height: 200px;">
+            <p class="lead">Discover new experiences</p>
+          </div>
+        </div>
+      </div>
+      <div class="starter-template">
+        <h1>Create</h1><br><br>
+        <div class="row">
+          <div class="col-lg-4">
+            <img class="img-circle" src="{% static 'hubs/images/featureCircle5.png' %}" alt="Generic placeholder image" style="width: 200px; height: 200px;">
+            <p class="lead">Manage your Hubs</p>
+          </div>
+          <div class="col-lg-4">
+            <img class="img-circle" src="{% static 'hubs/images/featureCircle4.png' %}" alt="Generic placeholder image" style="width: 200px; height: 200px;">
+            <p class="lead">Tag Hubs to locations</p>
+          </div>
+          <div class="col-lg-4">
+            <img class="img-circle" src="{% static 'hubs/images/featureCircle6.png' %}" alt="Generic placeholder image" style="width: 200px; height: 200px;">
+            <p class="lead">Gather members</p>
+          </div>
+        </div>
+      </div>
+      <div class="starter-template2">
+        <h1>Get Started</h1>
+        <br>
+		  <div class="center"><a href = "{% url 'hubs:createAccount' blankErrorStatus=False %}"><button type="button" class="btn btn-primary btn-lg">Sign Up</button></a>
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  <a href = "{% url 'hubs:logInPage' %}"><button type="button" class="btn btn-success btn-lg">Log In</button></a></div>
+		</div>
+	  </div>
+    </div>
+  </body>
+</html>

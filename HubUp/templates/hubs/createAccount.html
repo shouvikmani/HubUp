@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--Code taken from getbootstrap.com Examples-->
+<html lang="en">
+  <head>
+  	{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'hubs/images/logo.png' %}">
+    <title>HubUp</title>
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+    <!--jQuery file -->
+    <script src="{% static 'hubs/dist/js/jquery-1.11.1.min.js' %}"></script>
+    <!--Bootstrap core JS -->
+    <script src="{% static 'hubs/dist/js/bootstrap.min.js' %}"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'hubs/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="{% static 'hubs/index.css' %}">
+	<title>HubUp</title>
+  </head>
+  <body>
+	<!--Navigation bar-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'hubs:index' %}">
+            <div class="col-md-2">
+              <img src="{% static 'hubs/images/logo.png' %}" alt="Brand">
+            </div>
+          </a>
+          <a href="{% url 'hubs:index' %}">
+            <div class="col-md-8 navbar-brand">
+                <div class="headerText">&nbsp;HubUp</div>
+            </div>
+          </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <div class="row">
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="{% url 'hubs:createHub' %}"><div class="navFont">Create</div></a></li>
+              <li><a href="{% url 'hubs:viewHub' %}">Discover</a></li>
+              <li><a href="{% url 'hubs:logInPage' %}">Log In</a></li>
+              <li><a href="{% url 'hubs:createAccount' blankErrorStatus=False %}">Sign Up</a></li>
+          </ul>
+         </div>
+        </div>
+      </div>
+    </nav>
+    <div class="createAccountIndent">
+    	<!--Create account form with name, username, and password fields-->
+		<!--Request sent to addUser-->
+		<form action = "{% url 'hubs:addUser' %}" method="post">
+		<div class="form-group">
+			<h2>Sign Up</h2>
+			{% csrf_token %}
+			<label for="firstNameInput">First Name</label>
+			<input type="text" name = "First_Name" class="form-control" id="firstNameInput" placeholder="First Name">
+			<br>
+			<label for="lastNameInput">Last Name</label>
+			<input type="text" name = "Last_Name" class="form-control" id="lastNameInput" placeholder="Last Name">
+			<br>
+			<label for="usernameInput">Username</label>
+			<input type="text" name = "username" class="form-control" id="usernameInput" placeholder="Username">
+      <br>
+			{% if error == True %}
+				<div class="width500">That username already exists. Try a different one.</div>
+				<br>
+			{% endif %}
+			<label for="passwordInput">Password</label>
+			<input type="password" name = "password" class="form-control" id="passwordInput" placeholder="Password">
+      <br>
+			{% if blankErrorStatus == True %}
+				Please fill out all the fields.
+				<br>
+			{% endif %}
+			<br>
+			<button type="submit" class="btn btn-primary btn-md">Create Account</button></a>
+		</div>
+		</form>
+	</div>
+   </body>
+</html>

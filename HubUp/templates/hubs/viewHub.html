@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<!--Code taken from getbootstrap.com Examples-->
+<html lang="en">
+  <head>
+  	{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'hubs/images/logo.png' %}">
+    <title>HubUp</title>
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+    <!--jQuery file -->
+    <script src="{% static 'hubs/dist/js/jquery-1.11.1.min.js' %}"></script>
+    <!--Bootstrap core JS -->
+    <script src="{% static 'hubs/dist/js/bootstrap.min.js' %}"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'hubs/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="{% static 'hubs/index.css' %}">
+	<title>HubUp</title>
+	<!--Google Maps API-->
+	<style type="text/css">
+      html, body, #map-canvas { height: 85%; margin: 0; padding: 0;}
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaUnHovRKBPmUfftlOioHOLTBvBJwIIvs">
+    </script>
+    <script type="text/javascript">
+    	var geocoder
+    	var map
+        var initialLocation;
+		var browserSupportFlag =  new Boolean();
+		var infowindow = new google.maps.InfoWindow();
+
+		var latLongList = {{latLongList}};
+		var hubNames = {{hubNames}};
+		var hubLocations = {{hubLocations}};
+		var hubDates = {{hubDates}};
+		var hubTimes = {{hubTimes}};
+
+		function initialize() {
+
+		    // Try W3C Geolocation (Preferred)
+		    if (navigator.geolocation) {
+		    	browserSupportFlag = true;
+		    	navigator.geolocation.getCurrentPosition(function(position) {
+		    		initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+		    		map.setCenter(initialLocation);}, function() {
+		    			handleNoGeolocation(browserSupportFlag);});}
+		    // Browser doesn't support Geolocation
+		    else {
+		    	browserSupportFlag = false;
+		    	handleNoGeolocation(browserSupportFlag);}
+
+			function handleNoGeolocation(errorFlag) {
+				if (errorFlag == true) {
+					alert("Geolocation service failed. Map failed to load.");} 
+				else {
+					alert("Your browser doesn't support geolocation.");}
+					map.setCenter(initialLocation);}
+
+			var myOptions = {
+				zoom: 15,};
+
+			var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+
+			map.setCenter(initialLocation);
+
+			//Creates marker for each Hub in database
+			for (var i=0; i< latLongList.length; i++) {
+				var coordinates = latLongList[i];
+
+				var image = "{% static 'hubs/images/logo2.png' %}";
+				var latLng = new google.maps.LatLng(coordinates[0], coordinates[1]);
+
+				var marker = new google.maps.Marker({
+					position: latLng,
+					map: map,
+					icon: image});
+
+				attachInfoWindow(marker, i);
+			}
+		}
+
+		//Opens selected info window through closure
+		function attachInfoWindow(marker, i) {
+			google.maps.event.addListener(marker, 'click', function() {
+				var contentString = "<h3>" + hubNames[i] + "</h3>"
+									+ "<b>Location: </b>" + hubLocations[i]
+									+ "<br><b>Time: </b>" + hubDates[i] + " | " + hubTimes[i];
+				// Info Window viewing approach from
+				// http://stackoverflow.com/questions/2223574/google-maps-
+				// auto-close-open-infowindows
+				infowindow.setOptions({
+					content: contentString,
+				});
+				infowindow.open(marker.get('map'), marker);
+			});
+		}
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+  	<div class = "col-md-4">
+  		<!--Navigation bar-->
+	    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="{% url 'hubs:index' %}">
+	            <div class="col-md-2">
+	              <img src="{% static 'hubs/images/logo.png' %}" alt="Brand">
+	            </div>
+	          </a>
+	          <a href="{% url 'hubs:index' %}">
+	            <div class="col-md-8 navbar-brand">
+	                <div class="headerText">&nbsp;HubUp</div>
+	            </div>
+	          </a>
+	        </div>
+	        <div id="navbar" class="collapse navbar-collapse">
+	        <div class="row">
+	          <ul class="nav navbar-nav navbar-right">
+	            <li><a href="{% url 'hubs:createHub' %}"><div class="navFont">Create</div></a></li>
+	            <li class = "active"><a href="{% url 'hubs:viewHub' %}">Discover</a></li>
+	            <li class="dropdown">
+				    <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'hubs:userProfile' %}" role="button" aria-expanded="false">
+				      {{currentUser.firstName_text}} <span class="caret"></span>
+				    </a>
+				    <ul class="dropdown-menu" role="menu">
+				      <li><a href="{% url 'hubs:userProfile' %}">Profile</a></li>
+				      <li class="divider"></li>
+				      <li><a href="{% url 'hubs:logout' %}">Log Out</a></li>
+				    </ul>
+				 </li>
+          	  </ul>
+	         </div>
+	        </div>
+	      </div>
+	    </nav>
+	</div>
+	<br><br><br>
+	<div id="map-canvas"></div>
+	<div class = "col-sm-4">
+		<div class = "eventDetailsColumn">
+			<h2>Hubs Near Me</h2><br>
+			<!--Displays all Hubs in a scrollable column on the left-->
+			<div  class="leftColumn">
+				{% for hub in eventList %}
+					<div class="thumbnail shift-left">
+						<ul class="list-unstyled">
+							<div class = "eventsDetailsShift">
+								<h3><a href = "{% url 'hubs:viewHubDetails' hub.id %}">{{hub.eventName_text}}</a></h3>
+								<li><b>Date:</b> {{hub.date_text}} | Time: {{hub.time_text}}</li>
+								<li><b>Location:</b> {{hub.location_text}}</li>
+								<li><b>Description:</b> {{hub.description_text}}</li>
+								{% if hub.users.count == 0 %}
+									<li><b>Members:</b> None</li>
+								{% else %}
+									<li>
+										<b>Members:</b>
+										{% for user in hub.users.all %}
+											{% if forloop.counter == hub.users.all|length %}
+												{{user.firstName_text}} {{user.lastName_text}}
+											{% else %}
+												{{user.firstName_text}} {{user.lastName_text}},
+											{% endif %}
+										{% endfor %}
+									</li>
+								{% endif %}
+								<br>
+							</div>
+							{% if currentUser.username_text == hub.eventHost_text %}
+								<div class= "col-md-2">
+									<form action = "{% url 'hubs:editHub' hub.id %}" method="post">
+										{% csrf_token %}
+										<button type="submit" class="btn btn-success btn-sm">Edit Hub</button></a>
+									</form>
+								</div>
+								<div class= "col-md-2 col-md-offset-2">
+									<form action = "{% url 'hubs:deleteHub' hub.id %}" method="post">
+										{% csrf_token %}
+										<button type="submit" class="btn btn-danger btn-sm">Delete Hub</button></a>
+									</form>
+								</div>
+							{% else %}
+								{% if currentUser in hub.users.all %}
+								<div class= "col-md-2">
+									<form action = "{% url 'hubs:leaveHub' hub.id %}" method="post">
+										{% csrf_token %}
+										<button type="submit" class="btn btn-primary btn-sm">Leave Hub</button></a>
+									</form>
+								</div>
+								{% else %}
+									<div class= "col-md-2">
+										<form action = "{% url 'hubs:addMember' hub.id %}" method="post">
+											{% csrf_token %}
+											<button type="submit" class="btn btn-primary btn-sm">Join Hub</button>
+										</form>
+									</div>
+								{% endif %}
+							{% endif %}
+							<br><br>
+						</ul>
+					</div>
+					<br>
+				{% endfor %}
+				<br>
+			</div>
+		</div>
+	</div>
+	<!--Displays the map in a static column on the right-->
+	<div class = "col-sm-2">
+		<div class="eventDetailsMap"></div>
+	</div>
+	<br><br>
+   </body>
+</html>

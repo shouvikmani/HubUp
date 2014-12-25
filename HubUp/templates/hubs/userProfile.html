@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!--Code taken from getbootstrap.com Examples-->
+<html lang="en">
+  <head>
+  	{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'hubs/images/logo.png' %}">
+    <title>HubUp</title>
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+    <!--jQuery file -->
+    <script src="{% static 'hubs/dist/js/jquery-1.11.1.min.js' %}"></script>
+    <!--Bootstrap core JS -->
+    <script src="{% static 'hubs/dist/js/bootstrap.min.js' %}"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'hubs/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="{% static 'hubs/index.css' %}">
+	<title>HubUp</title>
+  </head>
+  <body>
+  	<div class="profilePageIndent">
+		 <div class="row">
+		  	<div class = "col-md-4">
+		  		<!--Navigation bar-->
+			    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			      <div class="container">
+			        <div class="navbar-header">
+			          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			            <span class="sr-only">Toggle navigation</span>
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			          </button>
+			          <a class="navbar-brand" href="{% url 'hubs:index' %}">
+			            <div class="col-md-2">
+			              <img src="{% static 'hubs/images/logo.png' %}" alt="Brand">
+			            </div>
+			          </a>
+			          <a href="{% url 'hubs:index' %}">
+			            <div class="col-md-8 navbar-brand">
+			                <div class="headerText">&nbsp;HubUp</div>
+			            </div>
+			          </a>
+			        </div>
+			        <div id="navbar" class="collapse navbar-collapse">
+			        <div class="row">
+			          <ul class="nav navbar-nav navbar-right">
+			              <li><a href="{% url 'hubs:createHub' %}"><div class="navFont">Create</div></a></li>
+			              <li><a href="{% url 'hubs:viewHub' %}">Discover</a></li>
+			              <li class="dropdown">
+						    <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'hubs:userProfile' %}" role="button" aria-expanded="false">
+						      {{currentUser.firstName_text}} <span class="caret"></span>
+						    </a>
+						    <ul class="dropdown-menu" role="menu">
+						      <li><a href="{% url 'hubs:userProfile' %}">Profile</a></li>
+						      <li class="divider"></li>
+						      <li><a href="{% url 'hubs:logout' %}">Log Out</a></li>
+						    </ul>
+						  </li>
+			          </ul>
+			         </div>
+			        </div>
+			      </div>
+			    </nav>
+			</div>
+		</div>
+		<div class="row">
+			<div class = "col-md-4">
+				<h2>Hello {{currentUser.firstName_text}}!</h2>
+				<h3>Your Hubs</h3>
+			</div>
+		</div>
+		{% if currentUser.hub_set.count == 0 %}
+			<div class="yourHubsIndent lead">You have no existing Hubs. 
+			Go <a href="{% url 'hubs:viewHub' %}">Discover</a> or 
+			<a href="{% url 'hubs:createHub' %}">Create</a> one!</div>
+		{% else %}
+		<!--Lists each Hub and details in inline thumbnails-->
+		<div class="yourHubsIndent">
+			<div class="myClass">
+				<div class="row">
+					<ol>
+						{% for hub in currentUser.hub_set.all %}
+						  <div class="span6">
+						    <div class="thumbnail">
+						      <div class="caption">
+						        <h3><a href = "{% url 'hubs:viewHubDetails' hub.id %}">{{hub.eventName_text}}</a></h3>
+						        <p>Date: {{hub.date_text}}</p>
+						        <p>Location: {{hub.location_text}}</p>
+						        {% if hub.eventHost_text == username %}
+									<p>Status: Host</p>
+								{% else %}
+									<p>Status: Member</p>
+								{% endif %}
+						        	{% if currentUser.username_text == hub.eventHost_text %}
+						        		<div class="col-md-2">
+											<form action = "{% url 'hubs:editHub' hub.id %}" method="post">
+												{% csrf_token %}
+												<button type="submit" class="btn btn-success btn-sm">Edit Hub</button></a>
+											</form>
+										</div>
+						        		<div class="col-md-2 col-md-offset-3">
+											<form action = "{% url 'hubs:deleteHub' hub.id %}" method="post">
+												{% csrf_token %}
+												<button type="submit" class="btn btn-danger btn-sm">Delete Hub</button></a>
+											</form>
+										</div>
+									{% else %}
+										<div class="col-md-2">
+											<form action = "{% url 'hubs:leaveHub' hub.id %}" method="post">
+												{% csrf_token %}
+												<button type="submit" class="btn btn-primary btn-sm">Leave Hub</button></a>
+											</form>
+										</div>
+									{% endif %}
+						      </div>
+						    </div>
+						  </div>
+						{% endfor %}
+					</ol>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<!--If there are Hubs without a score of 0 (Trending Hubs-->
+		{% if rankList.0.0 != 0 %}
+			<div class="row">
+				<div class="col-md-5">
+					<h3>Trending Hubs</h3>
+				</div>
+			</div>
+			<!--Lists trending hubs and details in inline thumbnails-->
+			<div class="myClass yourHubsIndent">
+				<div class="row">
+					<ol>
+						{% for rankPair in rankList %}
+							{% if rankPair.0 != 0 %}
+								<div class="span6">
+									<div class="thumbnail">
+									    <div class="caption">
+												<h3><a href = "{% url 'hubs:viewHubDetails' rankPair.1.id %}">{{rankPair.1}}</a></h3>
+												<p>Date: {{rankPair.1.date_text}}</p>
+												<p>Location: {{rankPair.1.location_text}}</p>
+												<p>Hub Score: {{rankPair.0}}</p>
+										</div>
+									</div>
+								</div>
+							{% endif %}
+						{% endfor %}
+					</ol>
+				</div>
+			</div>
+		{% endif %}
+		<div class="row">
+			<div class="col-md-5">
+				<h3>Latest Hubs</h3>
+			</div>
+		</div>
+		<!--List recent hubs and details in inline thumbnails-->
+		<div class="yourHubsIndent">
+			<div class="myClass">
+				<div class="row">
+					<ol>
+						{% for hub in latestHubs %}
+							<div class="span6">
+								<div class="thumbnail">
+								    <div class="caption">
+											<h3><a href = "{% url 'hubs:viewHubDetails' hub.id %}">{{hub}}</a></h3>
+											<p>Date: {{hub.date_text}}</p>
+											<p>Location: {{hub.location_text}}</p>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

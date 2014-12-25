@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--Code taken from getbootstrap.com Examples-->
+<html lang="en">
+  <head>
+  	{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'hubs/images/logo.png' %}">
+    <title>HubUp</title>
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+    <!--jQuery file -->
+    <script src="{% static 'hubs/dist/js/jquery-1.11.1.min.js' %}"></script>
+    <!--Bootstrap core JS -->
+    <script src="{% static 'hubs/dist/js/bootstrap.min.js' %}"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'hubs/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--Custom styles-->
+	<link rel="stylesheet" type="text/css" href="{% static 'hubs/index.css' %}">
+	<title>HubUp</title>
+  </head>
+  <body>
+  	<div class="createAHubIndent">
+	  	<div class="row">
+		  	<div class = "col-md-3">
+		  		<!--Navigation bar-->
+			    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			      <div class="container">
+			        <div class="navbar-header">
+			          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			            <span class="sr-only">Toggle navigation</span>
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			            <span class="icon-bar"></span>
+			          </button>
+			          <a class="navbar-brand" href="{% url 'hubs:index' %}">
+			            <div class="col-md-2">
+			              <img src="{% static 'hubs/images/logo.png' %}" alt="Brand">
+			            </div>
+			          </a>
+			          <a href="{% url 'hubs:index' %}">
+			            <div class="col-md-8 navbar-brand">
+			                <div class="headerText">&nbsp;HubUp</div>
+			            </div>
+			          </a>
+			        </div>
+			        <div id="navbar" class="collapse navbar-collapse">
+			        <div class="row">
+			          <ul class="nav navbar-nav navbar-right">
+			            <li class="active"><a href="{% url 'hubs:createHub' %}"><div class="navFont">Create</div></a></li>
+			            <li><a href="{% url 'hubs:viewHub' %}">Discover</a></li>
+			            <li class="dropdown">
+						    <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'hubs:userProfile' %}" role="button" aria-expanded="false">
+						      {{currentUser.firstName_text}} <span class="caret"></span>
+						    </a>
+						    <ul class="dropdown-menu" role="menu">
+						      <li><a href="{% url 'hubs:userProfile' %}">Profile</a></li>
+						      <li class="divider"></li>
+						      <li><a href="{% url 'hubs:logout' %}">Log Out</a></li>
+						    </ul>
+						 </li>
+		          	  </ul>
+			         </div>
+			        </div><!--/.nav-collapse -->
+			      </div>
+			    </nav>
+			</div>
+		</div>
+		<!--Form takes various inputs and sends request to makeHubEdits to edit a Hub-->
+		<form action = "{% url 'hubs:makeHubEdits' hub.id %}" method="post" role="form">
+			{% csrf_token %}
+			<div class="form-group">
+				<h1>Edit Hub</h1>
+				<div class="width285">
+					<label for="hubNameInput">Hub Name</label>
+					{% if preEventName == preEventName %}
+						<input type="text" name = "eventName" size = "35" placeholder="Hub Name" class="form-control" id="hubNameInput" value="{{preEventName}}">
+						{% if error == "nameError" %}
+							Please enter a Hub name.
+							<br>
+						{% endif %}
+					{% else %}
+						<input type="text" name = "eventName" size = "35" placeholder="Hub Name" class="form-control" id="hubNameInput">
+					{% endif %}
+				</div>
+				<br>
+				<div class="width190">
+					<label for="dateInput">Date</label>
+					{% if preDate == preDate %}
+						<input type="date" name = "date" placeholder = "yyyy-mm-dd" class="form-control" id="dateInput">
+						{% if error == "dateError" %}
+							Invalid date. Please try again.
+							<br>
+						{% endif %}
+					{% else %}
+						<input type="date" name = "date" placeholder = "yyyy-mm-dd" class="form-control" id="dateInput">
+					{% endif %}
+				</div>
+				<br>
+				<div class = "width285">
+					<label for="timeInput">Time</label>
+						<span class="input-group-btn">
+							{% if preTime == preTime %}
+								<input type="text" name = "time" size="10" placeholder="Ex: 12:30" class="form-control" id="timeInput">
+							{% else %}
+								<input type="text" name = "time" size="10" placeholder="Ex: 12:30" class="form-control" id="timeInput">
+							{% endif %}
+						</span>
+						<span class="input-group-btn shift-right">
+							<select class = "form-control form-inline width60" name="am/pm">
+								<option value="AM">AM</option>
+								<option value="PM">PM</option>			
+							</select>
+						</span>
+					{% if error == "timeError" %}
+							Invalid Time. Please try again.
+							<br>
+					{% endif %}
+				</div>
+				<br>
+				<div class="width285">
+					<label for="locationInput">Location</label>
+					{% if preLocation == preLocation %}
+						<input type="text" name = "location" size="50" placeholder="Enter address or landmark" class="form-control" id="timeInput" value="{{preLocation}}">
+						{% if error == "locationError" %}
+							<div class="width500">Location not recognized. Please try a different location.</div>
+							<br>
+						{% endif %}
+					{% else %}
+						<input type="text" name = "location" size="50" placeholder="Enter address or landmark" class="form-control" id="timeInput">
+					{% endif %}
+				</div>
+				<br>
+				<div class="width500">
+					<label for="descriptionInput">Description</label>
+					{% if preDescription == preDescription %}
+						<textarea class="form-control" id="descriptionInput" name="description" rows="4" cols = "60">{{preDescription}}</textarea>
+					{% else %}
+						<textarea class="form-control" id="descriptionInput" name="description" rows="4" cols = "60">Enter Hub Description</textarea>
+					{% endif %}
+				</div>
+				<br>
+				<button type="submit" class="btn btn-primary btn-lg">Edit Hub</button></a>
+			</div>
+		</form>
+	  </div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+web: gunicorn HubUp.wsgi --log-file -

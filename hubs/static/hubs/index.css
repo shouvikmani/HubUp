@@ -1,0 +1,209 @@
+/*CSS File that contains lots of styling*/
+
+body {
+  padding-top: 50px;
+}
+
+h1 {
+	color: #3786AE;
+}
+
+h2 {
+	color: #3786AE;
+}
+
+ul, ol {
+	margin-top: 0;
+	margin-bottom: 10px;
+	padding-left: 5px;
+	font-size: 12pt;
+}
+
+.navbar-inverse {
+	background-color: rgb(242, 241, 241);
+	border-color: #3786AE;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #3786AE;
+}
+
+.navbar-inverse .navbar-brand:hover {
+	color: #3786AE;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+color: #3786AE;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+	color: white;
+	background-color: #3786AE;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+	color: white;
+	background-color: #3786AE;
+}
+
+.navbar-nav {
+	font-size: 16px;
+}
+
+.navbar2 {
+	position: relative;
+	min-height: 30px;
+	border: 1px solid transparent;
+}
+
+.starter-template {
+	padding-top: 20px;
+	padding-bottom: 40px;
+	padding-left: 70px;
+	margin-left: -70px;
+	margin-right: -70px;
+	border-bottom: 2px solid #3786AE;
+}
+
+.starter-template2 {
+	padding-top: 20px;
+	padding-bottom: 60px;
+}
+
+.starter-template3 {
+	margin-right: -70px;
+	margin-left: -70px;
+	padding-top: 20px;
+	padding-bottom: 40px;
+	padding-left: 1000px;
+	border-bottom: 2px solid #3786AE;
+}
+
+.btn-primary {
+	color: #3786AE;
+	background-color: #FFFFFF;
+	border-color: #3786AE;
+}
+
+.btn-success {
+	color: #4cae4c;
+	background-color: #FFFFFF;
+	border-color: #4cae4c;
+}
+
+.btn-danger {
+	color: #D43F3A;
+	background-color: #FFFFFF;
+}
+
+.centerNavText {
+	margin-top: 3px;
+	text-align: center;
+	color: white;
+	font-size: 14px;
+}
+
+.center {
+	text-align: center;
+}
+
+.navbar-brand {
+	float: left;
+	margin-left: -10px;
+	height: 50px;
+	padding: 13px 0px;
+	font-size: 28px;
+	line-height: 20px;
+}
+
+.navbar-right {
+	margin-right: 0px;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
+	color: #fff;
+	background-color: #3786AE;
+}
+
+.eventDetailsMap {
+	float: right;
+	padding-top: 25px;
+	padding-left: 150px:;
+}
+
+.eventDetailsColumn {
+	margin-right: 50px;
+}
+
+.eventsDetailsShift {
+	margin-left: 10px;
+	line-height: 1.5;
+}
+
+.carousel {
+	background-color: rgb(115, 176, 207);
+}
+.positionButtonsCarousel {
+	float: right;
+	padding-bottom: 250px;
+}
+
+.headerText {
+	padding-top: 2px;
+	padding-left: 3px;
+}
+
+.container>.navbar-header{
+	margin-right: 0;
+	margin-left: -20px;
+}
+
+.starter-template .lead {
+	text-align: center;
+}
+
+.img-circle {
+	border-radius: 50%;
+	margin-left: 22%;
+	margin-bottom: 20px;
+}
+
+.eventDetailsColumn>.leftColumn {
+	overflow-y: scroll;
+	height: 540px;
+}
+
+.profilePageIndent {
+	margin-left: 50px;
+}
+
+.yourHubsIndent {
+	overflow-x: scroll;
+	margin-left: 15px;
+	padding-top: 20px;
+}
+
+/*Code taken from http://stackoverflow.com/questions/11320323/tw-bootstrap-how
+-to-overflow-columns. Allows horizontal scrolling on the user profile page*/
+div.myClass {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+div.myClass [class*="span"] {
+    display: inline-block;
+    float: none; /* Very important */
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.createAHubIndent {
+	margin-left: 50px;
+}
+
+.logInPageIndent {
+	margin-left: 35px;
+}
+
+.createAccountIndent {
+	margin-left: 35px;
+}
