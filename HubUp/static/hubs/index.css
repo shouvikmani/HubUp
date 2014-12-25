@@ -134,6 +134,7 @@ color: #3786AE;
 .eventDetailsColumn {
 	margin-right: -60px;
 	margin-left: 20px;
+	min-width: 300px;
 }
 
 .eventsDetailsShift {
