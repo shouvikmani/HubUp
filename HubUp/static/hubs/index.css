@@ -123,7 +123,7 @@ ul, ol {
 /*Code taken from http://stackoverflow.com/questions/11320323/tw-bootstrap-how
 -to-overflow-columns. Allows horizontal scrolling on the user profile page*/
 div.myClass {
-    overflow-x: none;
+    overflow-x: auto;
     white-space: nowrap;
 }
 
@@ -132,10 +132,6 @@ div.myClass [class*="span"] {
     float: none; /* Very important */
     margin-left: 25px;
     margin-right: 25px;
-}
-
-div.myClass:hover, div.myClass:focus {
-    overflow-x: auto;
 }
 
 .createAHubIndent {
