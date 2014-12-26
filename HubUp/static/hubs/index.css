@@ -19,43 +19,6 @@ ul, ol {
 	font-size: 12pt;
 }
 
-.navbar-inverse {
-	background-color: rgb(242, 241, 241);
-	border-color: #3786AE;
-}
-
-.navbar-inverse .navbar-brand {
-	color: #3786AE;
-}
-
-.navbar-inverse .navbar-brand:hover {
-	color: #3786AE;
-}
-
-.navbar-inverse .navbar-nav>li>a {
-color: #3786AE;
-}
-
-.navbar-inverse .navbar-nav > li > a:hover {
-	color: white;
-	background-color: #3786AE;
-}
-
-.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
-	color: white;
-	background-color: #3786AE;
-}
-
-.navbar-nav {
-	font-size: 16px;
-}
-
-.navbar2 {
-	position: relative;
-	min-height: 30px;
-	border: 1px solid transparent;
-}
-
 .starter-template {
 	padding-top: 20px;
 	padding-bottom: 40px;
@@ -96,33 +59,8 @@ color: #3786AE;
 	background-color: #FFFFFF;
 }
 
-.centerNavText {
-	margin-top: 3px;
-	text-align: center;
-	color: white;
-	font-size: 14px;
-}
-
 .center {
 	text-align: center;
-}
-
-.navbar-brand {
-	float: left;
-	margin-left: -10px;
-	height: 50px;
-	padding: 13px 0px;
-	font-size: 28px;
-	line-height: 20px;
-}
-
-.navbar-right {
-	margin-right: 0px;
-}
-
-.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
-	color: #fff;
-	background-color: #3786AE;
 }
 
 .eventDetailsMap {
@@ -151,18 +89,6 @@ color: #3786AE;
 	padding-bottom: 55%;
 }
 
-.headerText {
-	padding-top: 2px;
-	padding-left: 3px;
-}
-
-.container>.navbar-header {
-margin-right: 0;
-margin-left: 0px;
-max-height: 50px;
-width: 380px;
-}
-
 .starter-template .lead {
 	text-align: center;
 }
@@ -174,8 +100,12 @@ width: 380px;
 }
 
 .eventDetailsColumn>.leftColumn {
-	overflow-y: scroll;
+	overflow-y: hidden;
 	height: 540px;
+}
+
+.eventDetailsColumn>.leftColumn:hover {
+	overflow-y: scroll;
 }
 
 .profilePageIndent {
@@ -191,14 +121,19 @@ width: 380px;
 /*Code taken from http://stackoverflow.com/questions/11320323/tw-bootstrap-how
 -to-overflow-columns. Allows horizontal scrolling on the user profile page*/
 div.myClass {
-    overflow-x: auto;
+    overflow-x: hidden;
     white-space: nowrap;
 }
+
 div.myClass [class*="span"] {
     display: inline-block;
     float: none; /* Very important */
     margin-left: 25px;
     margin-right: 25px;
+}
+
+div.myClass:hover {
+    overflow-x: auto;
 }
 
 .createAHubIndent {
@@ -217,11 +152,6 @@ div.myClass [class*="span"] {
 margin-bottom: 15px;
 margin-left: 40px;
 width: 250px;
-}
-
-.container>.navbar-header, .container-fluid>.navbar-header, .container>.navbar-collapse, .container-fluid>.navbar-collapse {
-margin-right: -15px;
-margin-left: -10px;
 }
 
 .width285 {
@@ -283,4 +213,58 @@ margin-left: -10px;
 
 .list-inline {
   white-space:nowrap;
+}
+
+.navbar-inverse {
+	background-color: rgb(242, 241, 241);
+	border-color: #3786AE;
+	padding-left: 3%;
+	padding-right: 4%;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+	color: #3786AE;
+}
+
+.navbar-inverse .navbar-brand {
+	color: #3786AE;
+	font-size: 28px;
+	margin-top: -2px;
+}
+
+.navbar-brand>img {
+	display: inline-block;
+	padding-bottom: 4px;
+}
+
+.navbar-inverse .navbar-toggle{
+	border-color: #3786AE;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar{
+	background-color: #3786AE;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+	color: white;
+	background-color: #3786AE;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus {
+	color: white;
+	background-color: #3786AE;
+}
+
+.navbar-inverse .navbar-header > a:hover {
+	color: #3786AE;
+} 
+
+.navbar .nav > li.dropdown.open.active > a:hover, 
+.navbar .nav > li.dropdown.open > a {
+	color: white;
+	background-color: #3786AE;
+}
+
+.starter-template > h1, .starter-template2 > h1 {
+	padding-left: 5%;
 }
