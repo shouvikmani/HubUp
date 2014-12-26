@@ -26,11 +26,13 @@ ul, ol {
 	margin-left: -70px;
 	margin-right: -70px;
 	border-bottom: 2px solid #3786AE;
+	max-width: 110%;
 }
 
 .starter-template2 {
 	padding-top: 20px;
 	padding-bottom: 60px;
+	max-width: 110%;
 }
 
 .starter-template3 {
@@ -132,7 +134,7 @@ div.myClass [class*="span"] {
     margin-right: 25px;
 }
 
-div.myClass:hover {
+div.myClass:hover, div.myClass:active {
     overflow-x: auto;
 }
 
