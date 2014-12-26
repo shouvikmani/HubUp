@@ -134,7 +134,7 @@ div.myClass [class*="span"] {
     margin-right: 25px;
 }
 
-div.myClass:hover, div.myClass:active {
+div.myClass:hover, div.myClass:focus {
     overflow-x: auto;
 }
 
