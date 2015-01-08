@@ -2,7 +2,7 @@
 <!--Code taken from getbootstrap.com Examples-->
 <html lang="en">
   <head>
-  	{% load staticfiles %}
+    {% load staticfiles %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,11 +18,11 @@
     <!-- Bootstrap core CSS -->
     <link href="{% static 'hubs/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <!--Custom styles-->
-	<link rel="stylesheet" type="text/css" href="{% static 'hubs/index.css' %}">
-	<title>HubUp</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'hubs/index.css' %}">
+  <title>HubUp</title>
   </head>
   <body>
-	<!--Navigation bar-->
+  <!--Navigation bar-->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -38,44 +38,51 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="{% url 'hubs:createHub' %}">Create</a></li>
+          <li class="active"><a href="{% url 'hubs:createHub' %}">Create</a></li>
           <li><a href="{% url 'hubs:viewHub' %}">Discover</a></li>
-          <li class="active"><a href="{% url 'hubs:logInPage' %}">Log In</a></li>
+          <li><a href="{% url 'hubs:logInPage' %}">Log In</a></li>
           <li><a href="{% url 'hubs:createAccount' blankErrorStatus=False %}">Sign Up</a></li>
         </ul>
       </div>
     </nav>
     <!--LogIn form with username and password fields-->
+    <br>
     <div class="logInPageIndent">
-  		<!--Request sent to logInAuthenticate-->
-  		<form action = "{% url 'hubs:logInAuthenticate' %}" method = "post">
-  			{% csrf_token %}
-  			<div class="form-group">
-  				<h2>Log In</h2>
-  				<label for="usernameInput">Username</label>
-  				{% if username %}
-  					<input type="text" name = "username" class="form-control" id="usernameInput" value="{{username}}">
-  				{% else %}
-  					<input type="text" name = "username" placeholder="Username" class="form-control" id="usernameInput">
-  				{% endif %}
-  				<br>
-  				<label for="passwordInput">Password</label>
-  				<input type="password" name = "password" placeholder="Password" class="form-control" id="passwordInput">
-  				<br>
-  				{% if error == True %}
-  					<div class="width500">Invalid username or password. Please try again.</div>
-  					<br>
-  				{% endif %}
-  				<button type="submit" class="btn btn-primary btn-md">Log In</button></a>
+      <!--Request sent to logInAuthenticate-->
+      <div class="lead">
+        <div class="modif2">
+          Log In to Create a Hub
+          or <a href="{% url 'hubs:viewHub' %}">Discover</a> public Hubs
+        </div>
+      </div>
+      <form action = "{% url 'hubs:logInAuthenticate' %}" method = "post">
+        {% csrf_token %}
+        <div class="form-group">
+          <h2>Log In</h2>
+          <label for="usernameInput">Username</label>
+          {% if username %}
+            <input type="text" name = "username" class="form-control" id="usernameInput" value="{{username}}">
+          {% else %}
+            <input type="text" name = "username" placeholder="Username" class="form-control" id="usernameInput">
+          {% endif %}
+          <br>
+          <label for="passwordInput">Password</label>
+          <input type="password" name = "password" placeholder="Password" class="form-control" id="passwordInput">
+          <br>
+          {% if error == True %}
+            <div class="width500">Invalid username or password. Please try again.</div>
+            <br>
+          {% endif %}
+          <button type="submit" class="btn btn-primary btn-md">Log In</button></a>
           <br><br>
-  			</div>
-  		</form>
+        </div>
+      </form>
       <div class="lead">
         <div class="modif">No account? No problem! 
         <a href="{% url 'hubs:createAccount' blankErrorStatus=False %}">Sign Up</a>
         </div>
       </div>
-  		<br>
-	  </div>
+      <br>
+    </div>
   </body>
 </html>

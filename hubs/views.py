@@ -24,11 +24,13 @@ def testPage(request):
 
 #Create Hub page with form for user input
 def createHub(request):
-	#If user is not logged in, redirects to log in page
+	#If user is not logged in, omits currentUser and sends request to
+	#createHubLogIn
 	if ('user_id' not in request.session):
-		return HttpResponseRedirect(reverse('hubs:logInPage'))
+		context = {'error': False}
+		return render(request, 'hubs/createHubLogIn.html', context)
+	#If user is logged in, includes currentUser and sends request to createHub
 	else:
-		#current user is the context
 		currentUser = User.objects.get(id = request.session['user_id'])
 		context = {'currentUser': currentUser}
 		return render(request, 'hubs/createHub.html', context)
@@ -218,22 +220,28 @@ def makeHubEdits(request, hub_id):
 #Lists all the hubs in one page with the User's hubs, trending hubs, and
 #latest hubs
 def viewHub(request):
+	eventList = Hub.objects.all()
+	(hubNames, hubLocations, latLongList, hubDates, 
+		hubTimes) = ([], [], [], [], [])
+	#Gets properties for each Hub in the DB
+	for hub in Hub.objects.all():
+		hubNames += [str(hub.eventName_text)]
+		hubLocations += [str(hub.location_text)]
+		latLongList += [[hub.latCoordinate, hub.longCoordinate]]
+		hubDates += [getHubDateString(hub.date_text)]
+		hubTimes += [getHubTimeString(hub.time_text)]
+	#mark_safe marks the string as safe for HTML output purposes
+	hubNames, hubLocations = mark_safe(hubNames), mark_safe(hubLocations)
+	hubDates, hubTimes = mark_safe(hubDates), mark_safe(hubTimes)
+	#If user is not logged in, sends request to viewHubPublic and omits
+	#currentUser
 	if ('user_id' not in request.session):
-		return HttpResponseRedirect(reverse('hubs:logInPage'))
+		context = {'eventList': eventList, 'latLongList': latLongList, 
+					'hubNames': hubNames, 'hubLocations': hubLocations, 
+					'hubDates': hubDates,'hubTimes': hubTimes}
+		return render(request, 'hubs/viewHubPublic.html', context)
+	#If user is logged in, includes currentUser and sends request to viewHub
 	else:
-		eventList = Hub.objects.all()
-		(hubNames, hubLocations, latLongList, hubDates, 
-			hubTimes) = ([], [], [], [], [])
-		#Gets properties for each Hub in the DB
-		for hub in Hub.objects.all():
-			hubNames += [str(hub.eventName_text)]
-			hubLocations += [str(hub.location_text)]
-			latLongList += [[hub.latCoordinate, hub.longCoordinate]]
-			hubDates += [getHubDateString(hub.date_text)]
-			hubTimes += [getHubTimeString(hub.time_text)]
-		#mark_safe marks the string as safe for HTML output purposes
-		hubNames, hubLocations = mark_safe(hubNames), mark_safe(hubLocations)
-		hubDates, hubTimes = mark_safe(hubDates), mark_safe(hubTimes)
 		currentUser = User.objects.get(id = request.session['user_id'])
 		#Context is stored as a dictionary
 		context = {'eventList': eventList, 'currentUser': currentUser, 
@@ -269,26 +277,37 @@ def viewHubDetails(request, hub_id):
 	#Gathering the details of the hub
 	host = User.objects.get(username_text = hub.eventHost_text)
 	hostName = host.firstName_text + " " + host.lastName_text
-	currentUser = User.objects.get(id = request.session['user_id'])
 	latCoord = hub.latCoordinate
 	lngCoord = hub.longCoordinate
 	hubName = mark_safe([str(hub.eventName_text)])
 	hubLocation = mark_safe([str(hub.location_text)])
 	hubDate = mark_safe([getHubDateString(hub.date_text)])
 	hubTime = mark_safe([getHubTimeString(hub.time_text)])
-	context = {'hub': hub, 'currentUser': currentUser, 'latCoord': latCoord,
-				'lngCoord': lngCoord, 'hubName': hubName,
-				'hubLocation': hubLocation, 'hubDate': hubDate, 
-				'hubTime': hubTime, 'hostName': hostName}
-	#Every time the Hub Details page is viewed, update the viewsCount in Trend
-	memberCount = hub.users.count()
-	#Gets the last number of page views in the database
-	lastViewsCount = getLastViewsCount(hub)
-	#Increments lastViewsCount by 1 to represent the new page view.
-	newViewsCount = lastViewsCount + 1
-	hub.trend_set.create(memberCount = memberCount, 
-									viewsCount = newViewsCount)
-	return render(request, 'hubs/viewHubDetails.html', context)
+	#If user is not logged in, omits the currentUser and sends request to
+	#viewHubDetailsPublic
+	if ('user_id' not in request.session):
+		context = {'hub': hub, 'latCoord': latCoord,
+					'lngCoord': lngCoord, 'hubName': hubName,
+					'hubLocation': hubLocation, 'hubDate': hubDate, 
+					'hubTime': hubTime, 'hostName': hostName}
+		return render(request, 'hubs/viewHubDetailsPublic.html', context)
+	#If user is logged in, includes the currentUser and sends request to
+	##viewHubDetails. Then updates the Trend model
+	else:
+		currentUser = User.objects.get(id = request.session['user_id'])
+		context = {'hub': hub, 'currentUser': currentUser, 'latCoord': latCoord,
+					'lngCoord': lngCoord, 'hubName': hubName,
+					'hubLocation': hubLocation, 'hubDate': hubDate, 
+					'hubTime': hubTime, 'hostName': hostName}
+		#Every time the Hub Details page is viewed, update the viewsCount in Trend
+		memberCount = hub.users.count()
+		#Gets the last number of page views in the database
+		lastViewsCount = getLastViewsCount(hub)
+		#Increments lastViewsCount by 1 to represent the new page view.
+		newViewsCount = lastViewsCount + 1
+		hub.trend_set.create(memberCount = memberCount, 
+										viewsCount = newViewsCount)
+		return render(request, 'hubs/viewHubDetails.html', context)
 
 #Add a User to a Hub
 def addMember(request, hub_id):

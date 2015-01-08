@@ -266,3 +266,18 @@ width: 250px;
 .starter-template > h1, .starter-template2 > h1 {
 	padding-left: 5%;
 }
+
+.lead .modif {
+	margin-left: 40px;
+	font-size: 18px;
+}
+
+.lead .modif2 {
+	margin-left: 40px;
+	font-size: 24px;
+}
+
+.starter-template a {
+	text-decoration: none;
+	color: #3786AE
+}

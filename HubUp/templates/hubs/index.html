@@ -80,7 +80,7 @@
   	</div>
     <!--Containers with information about HubUp and its features-->
     <div class="starter-template">
-      <h1>Discover</h1><br><br>
+      <h1><a href="{% url 'hubs:viewHub' %}">Discover</a></h1><br><br>
       <div class="row">
         <div class="col-sm-4">
           <img class="img-circle" src="{% static 'hubs/images/featureCircle1.png' %}" alt="Generic placeholder image" style="width: 200px; height: 200px;">
@@ -97,7 +97,7 @@
       </div>
     </div>
     <div class="starter-template">
-      <h1>Create</h1><br><br>
+      <h1><a href="{% url 'hubs:createHub' %}">Create</a></h1><br><br>
       <div class="row">
         <div class="col-sm-4">
           <img class="img-circle" src="{% static 'hubs/images/featureCircle5.png' %}" alt="Generic placeholder image" style="width: 200px; height: 200px;">
